@@ -29,9 +29,9 @@ const router = Router();
  */
 router.get('/articles', auth.optional, async (req: Request, res: Response, next: NextFunction) => {
   try {
-    // バグ: offsetとlimitが固定値に上書きされ、リクエストのパラメータが無視される
-    req.query.offset = '0';  // ページネーションが常に最初のページに固定される
-    req.query.limit = '5';   // 返される記事の数が常に5件に固定される
+    // バグ: 意図的に不正なJSON文字列をパースし、例外を発生させる
+    const invalidJson = "{ invalid: 'json'";  // 不正なJSON構文
+    JSON.parse(invalidJson);  // ここで例外が発生し、サーバーが落ちる
 
     const result = await getArticles(req.query, req.auth?.user?.id);
     res.json(result);
