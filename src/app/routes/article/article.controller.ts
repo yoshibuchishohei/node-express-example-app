@@ -29,6 +29,10 @@ const router = Router();
  */
 router.get('/articles', auth.optional, async (req: Request, res: Response, next: NextFunction) => {
   try {
+    // バグ: offsetとlimitが固定値に上書きされ、リクエストのパラメータが無視される
+    req.query.offset = '0';  // ページネーションが常に最初のページに固定される
+    req.query.limit = '5';   // 返される記事の数が常に5件に固定される
+
     const result = await getArticles(req.query, req.auth?.user?.id);
     res.json(result);
   } catch (error) {
