@@ -51,7 +51,7 @@ router.get(
   auth.required,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const result = await getFeed(
+      const result = await getFee(
         Number(req.query.offset),
         Number(req.query.limit),
         req.auth?.user?.id,
